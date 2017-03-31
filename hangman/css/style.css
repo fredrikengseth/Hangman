@@ -1,0 +1,68 @@
+
+body {
+        font-family: 'Tangerine', serif;
+        font-size: 25px;
+	    background: grey; /* For browsers that do not support gradients */
+	    background: -webkit-linear-gradient(grey, lightgrey); /* For Safari 5.1 to 6.0 */
+	    background: -o-linear-gradient(grey, lightgrey); /* For Opera 11.1 to 12.0 */
+	    background: -moz-linear-gradient(grey, lightgrey); /* For Firefox 3.6 to 15 */
+	    background: linear-gradient(grey, lightgrey); /* Standard syntax (must be last) */
+}
+
+main {
+	/*border: solid green;*/
+	width: 500px;
+	height: auto;
+	margin-right: auto; 
+	margin-left: auto;
+}
+
+header {
+	/*border: solid black;*/
+	width: 500px;
+	height: auto;
+	margin-right: auto; 
+	margin-left: auto;
+	padding: 1px 5px 1px 130px;
+}
+
+#cnvs{
+	/*border-style: solid;*/
+	border-width: 1px;
+	background: #b59e75; /* For browsers that do not support gradients */
+	    background: -webkit-linear-gradient(#b59e75, #dac49d); /* For Safari 5.1 to 6.0 */
+	    background: -o-linear-gradient(#b59e75, #dac49d); /* For Opera 11.1 to 12.0 */
+	    background: -moz-linear-gradient(#b59e75, #dac49d); /* For Firefox 3.6 to 15 */
+	    background: linear-gradient(#b59e75, #dac49d); /* Standard syntax (must be last) */
+	
+}
+
+#skrivUt {
+	font-size: 80px;
+}
+
+input[type=text]{
+    width: 399px;
+    padding: 10px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 97px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#melding {
+	color: red;
+	font-size: 40px;
+}

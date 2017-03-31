@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <title>HangMan Game</title>
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+   </head>
+   <body>
+      <main>
+         <header>
+            <h1>A Hangman game</h1>
+         </header>
+         <canvas id="cnvs" width="500" height="340"></canvas>
+         <!--<div id="posBox"></div>-->
+         <br />
+         <div id="skrivUt"></div>
+         <div id="melding"></div>
+         <input type="text" id="velgOrd" placeholder="Velg ord "/>
+         <button type="button" id="sendForslag" onclick="sendForslag()">Send inn</button>
+         <br />
+         <input type="text" id="gjettOrd" placeholder="Gjett bokstaver i ordet"/>
+         <button type="button" onclick="sendgjetning()">Gjett</button>
+      </main>
+     <script>
+    var sendInnForslag = document.getElementById('gjettOrd').value;
+    var posBox = document.getElementById("posBox");
+    var canvas = document.getElementById("cnvs");
+    var inCanvas = canvas.getContext("2d");
+    var frame = canvas.getBoundingClientRect();
+    //canvas.onmousemove = pos;
+    //canvas.onclick = leggTilHangManDel;
+
+    var gjetningsOrd;
+    var riktiggjettet = [];
+    var antallGjettet = 0;
+
+    function sendgjetning() {
+        var sendInnForslag = document.getElementById('gjettOrd').value;
+        var feil = true;
+        //Loops through all the letter and checks if it is one of the guessed ones. 
+        for (var i = 0; i < gjetningsOrd.length; i++) {
+            if (gjetningsOrd[i] == sendInnForslag) {
+                riktiggjettet[i] = gjetningsOrd[i];
+                antallGjettet++;
+                feil = false;
+            }
+        }
+        skrivUt();
+        erspilletferdig();
+
+        if (feil == true) {
+            //If the letter is wrong, draw a body part.
+            leggTilHangManDel();
+        }
+        document.getElementById("gjettOrd").value = "";
+    }
+
+
+    function erspilletferdig() {
+        if (antallGjettet == gjetningsOrd.length) {
+            antallGjettet = 0;
+            alert("Du overlevde denne gangen");
+        }
+    }
+
+
+
+    function skrivUt() {
+        var divBox = document.getElementById('skrivUt');
+        divBox.innerHTML = riktiggjettet;
+    }
+
+    function sendForslag() {
+        skrivUt();
+        gjetningsOrd = document.getElementById('velgOrd').value;
+        document.getElementById('velgOrd').value = "";
+        for (var i = 0; i < gjetningsOrd.length; i++) {
+            riktiggjettet[i] = "_";
+        }
+        skrivUt();
+    }
+
+
+
+    function pos(event) {
+        var x = event.clientX - frame.left;
+        var y = event.clientY - frame.top;
+        posBox.innerHTML = x + ',' + y;
+    }
+
+    function hanMan() {
+        galgeLoddrett();
+        galgeVannrett();
+        galgeSammenHolder();
+        galgeKnute();
+        galgeBox();
+        galgeTopBox()
+        /*Remove this comment to show the whole drawing.
+        hodet();
+        venstreEye();
+        hoyreEye();	
+        munn();
+        kropp();
+        venstreArm();
+        hoyreArm();
+        hoyreBen();
+        venstreBen(); 
+        */
+
+    }
+
+    var HangManDelTeller = 0;
+
+    function leggTilHangManDel() {
+        switch (HangManDelTeller) {
+
+            case 0:
+                hodet();
+                break;
+            case 1:
+                venstreEye();
+                break;
+            case 2:
+                hoyreEye();
+                break;
+            case 3:
+                munn();
+                break;
+            case 4:
+                kropp();
+                break;
+            case 5:
+                venstreArm();
+                break;
+            case 6:
+                hoyreArm();
+                break;
+            case 7:
+                venstreBen();
+                break;
+            case 8:
+                hoyreBen();
+                break;
+            default:
+                inCanvas.clearRect(0, 0, 600, 400);
+                hanMan();
+                HangManDelTeller = -1;
+                alert('GAME OVER');
+
+        }
+
+        HangManDelTeller++;
+
+    }
+
+
+
+    // Hangman stand parts
+
+    //Vertical stroke
+    function galgeLoddrett() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(80, 50);
+        inCanvas.lineTo(80, 400);
+        inCanvas.lineWidth = 20;
+        inCanvas.strokeStyle = '#7F5417';
+        inCanvas.stroke();
+    }
+    //Horizontal line
+    function galgeVannrett() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(70, 50);
+        inCanvas.lineTo(380, 50);
+        inCanvas.lineWidth = 20;
+        inCanvas.strokeStyle = '#7F5417';
+        inCanvas.stroke();
+    }
+    //The line between the vertical and horizontal
+    function galgeSammenHolder() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(180, 50);
+        inCanvas.lineTo(80, 200);
+        inCanvas.lineWidth = 20;
+        inCanvas.strokeStyle = '#B67721';
+        inCanvas.stroke();
+    }
+
+    //Box to stand on
+    function galgeBox() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 350);
+        inCanvas.lineTo(300, 400);
+        inCanvas.lineWidth = 200;
+        inCanvas.strokeStyle = '#7F5417';
+        inCanvas.stroke();
+    }
+
+    function galgeTopBox() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 300);
+        inCanvas.lineTo(300, 400);
+        inCanvas.lineWidth = 120;
+        inCanvas.strokeStyle = '#7F5417';
+        inCanvas.stroke();
+    }
+    //Knot
+    function galgeKnute() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 40);
+        inCanvas.lineTo(300, 130);
+        inCanvas.lineWidth = 5;
+        inCanvas.strokeStyle = '#CD853F';
+        inCanvas.stroke();
+    }
+
+    //The body parts
+
+    //Head
+    function hodet() {
+        inCanvas.beginPath();
+        inCanvas.arc(300, 130, 30, 0, Math.PI * 2);
+        inCanvas.fillStyle = '#DEB887';
+        inCanvas.fill();
+    }
+    //Left eye
+    function venstreEye() {
+        inCanvas.beginPath();
+        inCanvas.arc(287, 118, 5, 0, Math.PI * 2);
+        inCanvas.fillStyle = '#177F75';
+        inCanvas.fill();
+    }
+    //Right eye
+    function hoyreEye() {
+        inCanvas.beginPath();
+        inCanvas.arc(312, 118, 5, 0, Math.PI * 2);
+        inCanvas.fillStyle = '#177F75';
+        inCanvas.fill();
+    }
+    //Mouth
+    function munn() {
+        inCanvas.beginPath();
+        inCanvas.arc(300, 138, 8, 300, Math.PI);
+        inCanvas.fillStyle = '#ea1547';
+        inCanvas.fill();
+    }
+    //Body
+    function kropp() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 165);
+        inCanvas.lineTo(300, 248);
+        inCanvas.lineWidth = 10;
+        inCanvas.strokeStyle = "#B6212D";
+        inCanvas.lineCap = 'round';
+        inCanvas.stroke();
+    }
+    //Left arm
+    function venstreArm() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(303, 177);
+        inCanvas.lineTo(340, 200);
+        inCanvas.lineWidth = 10;
+        inCanvas.strokeStyle = "#B6212D";
+        inCanvas.lineCap = 'round';
+        inCanvas.stroke();
+    }
+
+    //Right arm
+    function hoyreArm() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(297, 177);
+        inCanvas.lineTo(260, 200);
+        inCanvas.lineWidth = 10;
+        inCanvas.strokeStyle = "#B6212D";
+        inCanvas.lineCap = 'round';
+        inCanvas.stroke();
+    }
+    // Left leg
+    function hoyreBen() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 245);
+        inCanvas.lineTo(345, 290);
+        inCanvas.lineWidth = 10;
+        inCanvas.strokeStyle = "#7F5417";
+        inCanvas.lineCap = 'round';
+        inCanvas.stroke();
+    }
+
+    //Right leg
+    function venstreBen() {
+        inCanvas.beginPath();
+        inCanvas.moveTo(300, 245);
+        inCanvas.lineTo(260, 290);
+        inCanvas.lineWidth = 10;
+        inCanvas.strokeStyle = "#7F5417";
+        inCanvas.lineCap = 'round';
+        inCanvas.stroke();
+    }
+    //Output of the functions
+    hanMan();
+</script>
+   </body>
+</html>
